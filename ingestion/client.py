@@ -1,35 +1,23 @@
 import socket
-import threading
+import time
 import json
 
-# Fonction pour gérer les connexions clients
-def handle_client(client_socket):
-    while True:
-        # Recevoir des données du client
-        data = client_socket.recv(1024).decode()
-        if not data:
-            break
-        # Ici, vous pouvez traiter les données ou les envoyer à Apache Spark
-        print(f"Données reçues : {data}")
-        
-        # Simuler l'envoi des données à un système de traitement (comme Apache Spark)
-        # process_data(data)
-
-    client_socket.close()
-
 # Créer un socket TCP
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Lier le socket à l'adresse IP et au port
-server_socket.bind(('localhost', 12345))
+# Se connecter au serveur
+client_socket.connect(('localhost', 1234))  # Le même port que dans server.py
 
-# Écouter les connexions entrantes
-server_socket.listen(5)
-print("En attente d'une connexion...")
+# Simuler l'envoi de données
+for i in range(10):
+    data = {
+        'id': i,
+        'value': f'Donnée {i}',
+        'timestamp': time.time()
+    }
+    client_socket.sendall(json.dumps(data).encode())
+    print(f"Données envoyées : {data}")
+    time.sleep(1)  # Attendre 1 seconde entre les envois
 
-# Accepter les connexions des clients
-while True:
-    client_socket, address = server_socket.accept()
-    print(f"Connexion établie avec {address}")
-    client_handler = threading.Thread(target=handle_client, args=(client_socket,))
-    client_handler.start()
+# Fermer la connexion
+client_socket.close()
