@@ -43,3 +43,7 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 MIT License
 
 Copyright (c) [2024] [santoudllo]
+
+
+### Remarques
+- N'hésitez pas à modifier le texte pour mieux correspondre à votre style. Si vous avez d'autres ajustements ou questions, faites-le moi savoir !
