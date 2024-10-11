@@ -6,9 +6,10 @@ import json
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Se connecter au serveur
-client_socket.connect(('localhost', 1234))  # Le même port que dans server.py
+client_socket.connect(('localhost', 1234)) 
 
 # Simuler l'envoi de données
+
 for i in range(10):
     data = {
         'id': i,
@@ -20,4 +21,5 @@ for i in range(10):
     time.sleep(1)  # Attendre 1 seconde entre les envois
 
 # Fermer la connexion
+
 client_socket.close()
