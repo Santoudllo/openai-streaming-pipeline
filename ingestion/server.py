@@ -8,7 +8,7 @@ def handle_client(client_socket):
 
     while True:
         try:
-            # Réception des données
+            # Réception des données 
             data = client_socket.recv(buffer_size).decode()
             if not data:
                 print("Connexion fermée par le client.")
