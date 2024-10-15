@@ -9,7 +9,7 @@ load_dotenv()
 
 API_URL = os.getenv("API_URL")
 
-#  les données de l'API à obtenir 
+#  Utiliser le lien de l'API 
 
 response = requests.get(API_URL)
 data = response.json()
@@ -31,5 +31,5 @@ try:
     print(f"Réponse du serveur : {server_response}")
 finally:
     # Fermer la connexion après avoir envoyé les données
-    
+
     client_socket.close()
