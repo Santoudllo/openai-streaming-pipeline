@@ -1,32 +1,54 @@
 import socket
 import threading
-
-# Fonction pour gérer les connexions clients
+import json
 
 def handle_client(client_socket):
-    while True:
-        # Recevoir des données du client
+    buffer_size = 4096
+    data_buffer = ""
 
-        data = client_socket.recv(1024).decode()
-        if not data:
+    while True:
+        try:
+            # Réception des données
+            data = client_socket.recv(buffer_size).decode()
+            if not data:
+                print("Connexion fermée par le client.")
+                break
+
+            data_buffer += data
+
+            # décoder les données JSON une fois complètes
+            try:
+                
+
+                json_data = json.loads(data_buffer)
+                print(f"Données reçues : {json_data}")
+
+                # Réinitialiser le tampon après traitement
+
+                data_buffer = ""
+
+                # Envoyer une réponse au client
+
+                client_socket.sendall("Données reçues avec succès.".encode('utf-8'))
+
+            except json.JSONDecodeError:
+
+                # Si les données sont incomplètes, continuer à recevoir
+
+                continue
+
+        except Exception as e:
+            print(f"Erreur lors du traitement des données : {e}")
             break
-        print(f"Données reçues : {data}")
+
     client_socket.close()
 
-# Créer un socket TCP
+# Configuration du serveur
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Lier le socket à l'adresse IP et au port
-
-server_socket.bind(('localhost', 1234)) 
-
-# Écouter les connexions entrantes
-
+server_socket.bind(('localhost', 12345))  # le même port que le client
 server_socket.listen(5)
-print("En attente d'une connexion...")
-
-# Accepter les connexions des clients
+print("Serveur en attente d'une connexion...")
 
 while True:
     client_socket, address = server_socket.accept()
