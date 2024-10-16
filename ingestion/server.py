@@ -8,7 +8,7 @@ def handle_client(client_socket):
 
     while True:
         try:
-            # Réception des données 
+            # Réception des données
             data = client_socket.recv(buffer_size).decode()
             if not data:
                 print("Connexion fermée par le client.")
@@ -16,25 +16,20 @@ def handle_client(client_socket):
 
             data_buffer += data
 
-            # décoder les données JSON une fois complètes
+            # Essayer de décoder les données JSON une fois complètes
             try:
-                
-
+                # Tenter de charger les données JSON
                 json_data = json.loads(data_buffer)
                 print(f"Données reçues : {json_data}")
 
                 # Réinitialiser le tampon après traitement
-
                 data_buffer = ""
 
                 # Envoyer une réponse au client
-
                 client_socket.sendall("Données reçues avec succès.".encode('utf-8'))
 
             except json.JSONDecodeError:
-
                 # Si les données sont incomplètes, continuer à recevoir
-
                 continue
 
         except Exception as e:
@@ -44,9 +39,8 @@ def handle_client(client_socket):
     client_socket.close()
 
 # Configuration du serveur
-
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('localhost', 12345))  # le même port que le client
+server_socket.bind(('localhost', 12345))  # Utilisez le même port que le client
 server_socket.listen(5)
 print("Serveur en attente d'une connexion...")
 
